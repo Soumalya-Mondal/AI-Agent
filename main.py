@@ -62,7 +62,6 @@ if __name__ == '__main__':
         llm_response = llm_agent.invoke(
             {'messages': [HumanMessage(content = 'What is the weather like in New York city?')]}  # type: ignore[arg-type]
         )
-        # print(llm_response['messages'])
         print(f'Response:{llm_response["messages"][-1].content} [I:{(getattr(llm_response["messages"][-1], "usage_metadata", None) or {}).get("input_tokens", "N/A")}, O:{(getattr(llm_response["messages"][-1], "usage_metadata", None) or {}).get("output_tokens", "N/A")}]')
     except Exception as error:
         print(f'ERROR - [Main:S7] - {str(error)}')
