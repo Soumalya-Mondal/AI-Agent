@@ -6,27 +6,29 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #1a1a1a;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 10px;
     gap: 15px;
+    width: 100%;
 }
 
 .chat-container {
-    width: 100%;
-    max-width: 600px;
-    height: 90vh;
-    max-height: 800px;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    width: 85%;
+    max-width: none;
+    height: 100vh;
+    max-height: none;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
     display: flex;
     flex-direction: column;
     overflow: hidden;
     animation: slideUp 0.3s ease-out;
+    border-left: 3px solid #ff0000;
 }
 
 @keyframes slideUp {
@@ -42,12 +44,12 @@ body {
 
 /* Sidebar Styling */
 .sidebar {
-    width: 200px;
-    height: 90vh;
-    max-height: 800px;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    width: 15%;
+    height: 100vh;
+    max-height: none;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -57,13 +59,13 @@ body {
 .sidebar-header {
     text-align: center;
     margin-bottom: 20px;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: none;
     padding-bottom: 15px;
 }
 
 .sidebar-header h2 {
     font-size: 16px;
-    color: #333;
+    color: #e0e0e0;
     margin: 0;
     font-weight: 600;
 }
@@ -77,18 +79,18 @@ body {
 }
 
 .token-card {
-    background: linear-gradient(135deg, #f5f7fa 0%, #eff2f9 100%);
-    border-radius: 10px;
+    background: transparent;
+    border-radius: 0;
     padding: 15px;
     text-align: center;
-    border-left: 4px solid;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-left: 2px solid;
+    box-shadow: none;
     transition: all 0.3s;
 }
 
 .token-card:hover {
     transform: translateX(5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
 }
 
 .input-token {
@@ -101,12 +103,12 @@ body {
 
 .total-token {
     border-left-color: #06b6d4;
-    background: linear-gradient(135deg, #ecf2ff 0%, #f3e8ff 100%);
+    background: transparent;
 }
 
 .token-label {
     font-size: 11px;
-    color: #666;
+    color: #999;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -132,18 +134,18 @@ body {
 .sidebar-footer {
     text-align: center;
     padding-top: 15px;
-    border-top: 2px solid #f0f0f0;
+    border-top: none;
     font-size: 11px;
-    color: #999;
+    color: #666;
     font-style: italic;
 }
 
 .chat-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: transparent;
+    color: #e0e0e0;
     padding: 20px;
     text-align: center;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid #333;
 }
 
 .chat-header h1 {
@@ -164,7 +166,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    background: #f8f9fa;
+    background: #1a1a1a;
 }
 
 /* Scrollbar styling */
@@ -216,12 +218,12 @@ body {
 }
 
 .user-message .message-content {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #667eea;
     color: white;
     border-radius: 12px 12px 4px 12px;
     max-width: 70%;
     word-wrap: break-word;
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    box-shadow: none;
 }
 
 .assistant-message {
@@ -229,13 +231,13 @@ body {
 }
 
 .assistant-message .message-content {
-    background: white;
-    color: #333;
-    border: 1px solid #e0e0e0;
+    background: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #333;
     border-radius: 12px 12px 12px 4px;
     max-width: 70%;
     word-wrap: break-word;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: none;
 }
 
 .message-content {
@@ -284,28 +286,34 @@ body {
     display: flex;
     gap: 10px;
     padding: 15px;
-    background: white;
-    border-top: 1px solid #e0e0e0;
+    background: transparent;
+    border-top: 1px solid #333;
 }
 
 .chat-input {
     flex: 1;
-    border: 2px solid #e0e0e0;
+    border: 1px solid #333;
     border-radius: 25px;
     padding: 10px 16px;
     font-size: 14px;
     font-family: inherit;
     outline: none;
     transition: border-color 0.3s;
+    background: #2a2a2a;
+    color: #e0e0e0;
 }
 
 .chat-input:focus {
     border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    box-shadow: none;
+}
+
+.chat-input::placeholder {
+    color: #666;
 }
 
 .send-button {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #667eea;
     color: white;
     border: none;
     border-radius: 25px;
@@ -314,12 +322,13 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    box-shadow: none;
 }
 
 .send-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    box-shadow: none;
+    opacity: 0.9;
 }
 
 .send-button:active {
@@ -341,8 +350,8 @@ body {
 
     .sidebar {
         width: 100%;
-        max-height: none;
         height: auto;
+        max-height: none;
         border-radius: 0;
     }
 
@@ -362,8 +371,10 @@ body {
     }
 
     .chat-container {
+        width: 100%;
         max-height: 100vh;
         border-radius: 0;
+        height: auto;
     }
 }
 
