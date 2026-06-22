@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Weather Chat Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>📊 Token Usage</h2>
+        </div>
+        <div class="token-stats">
+            <div class="token-card input-token">
+                <div class="token-label">Input Tokens</div>
+                <div class="token-value" id="inputTokenCount">0</div>
+            </div>
+            <div class="token-card output-token">
+                <div class="token-label">Output Tokens</div>
+                <div class="token-value" id="outputTokenCount">0</div>
+            </div>
+            <div class="token-card total-token">
+                <div class="token-label">Total Tokens</div>
+                <div class="token-value" id="totalTokenCount">0</div>
+            </div>
+        </div>
+        <div class="sidebar-footer">
+            <p>Resets on page refresh</p>
+        </div>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>🤖 AI Weather Assistant</h1>
+            <p>Ask me about the weather anywhere in the world!</p>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="message assistant-message">
+                <div class="message-content">
+                    👋 Hello! I'm your AI Weather Assistant. Ask me about the weather in any city, and I'll fetch real-time weather information for you!
+                </div>
+            </div>
+        </div>
+        
+        <div class="typing-indicator" id="typingIndicator" style="display: none;">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        
+        <div class="chat-input-area">
+            <input 
+                type="text" 
+                id="userInput" 
+                class="chat-input" 
+                placeholder="Ask me about the weather... (e.g., 'What's the weather in London?')"
+                autocomplete="off"
+            >
+            <button id="sendBtn" class="send-button">Send</button>
+        </div>
+    </div>
+    
+    <script src="/static/script.js"></script>
+</body>
+</html>
