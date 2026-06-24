@@ -28,3 +28,18 @@ if [ ${#pycache_folders[@]} -gt 0 ]; then
 else
     echo "No __pycache__ folders found!"
 fi
+
+db_path="$parent_folder_path/database/chat_conversations.db"
+if [ -f "$db_path" ]; then
+    echo ""
+    read -rp "Also delete database file 'database/chat_conversations.db'? [y/N]: " delete_db
+    if [[ "$delete_db" =~ ^[Yy]$ ]]; then
+        if rm -f "$db_path" 2>/dev/null; then
+            ((++deleted_count))
+            echo "Database file deleted."
+        else
+            ((++failed_count))
+            echo "Failed to delete database file."
+        fi
+    fi
+fi

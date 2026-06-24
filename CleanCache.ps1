@@ -7,7 +7,7 @@ $failedCount = 0
 
 # find all "__pycache__" folders
 try {
-    $pycacheFolders = Get-ChildItem -Path $parentFolderPath -Recurse -Directory -Filter "__pycache__"
+    $pycacheFolders = [System.IO.Directory]::GetDirectories($parentFolderPath, "__pycache__", [System.IO.SearchOption]::AllDirectories)
 }
 catch {
     Write-Output "ERROR - $($_)"
@@ -16,9 +16,9 @@ catch {
 
 # delete all the "__pycache__" folders
 if ($pycacheFolders.Count -gt 0) {
-    $pycacheFolders | ForEach-Object {
+    foreach ($folder in $pycacheFolders) {
         try {
-            Remove-Item -Path $_.FullName -Recurse -Force
+            Remove-Item -Path $folder -Recurse -Force
             $deletedCount++
         }
         catch {
@@ -38,4 +38,21 @@ if ($pycacheFolders.Count -gt 0) {
 }
 else {
     Write-Output "No __pycache__ folders found!"
+}
+
+$dbPath = Join-Path -Path $parentFolderPath -ChildPath "database/chat_conversations.db"
+if (Test-Path $dbPath) {
+    Write-Output ""
+    $deleteDb = Read-Host "Also delete database file 'database\chat_conversations.db'? [y/N]"
+    if ($deleteDb -match '^[Yy]') {
+        try {
+            Remove-Item -Path $dbPath -Force
+            $deletedCount++
+            Write-Output "Database file deleted."
+        }
+        catch {
+            $failedCount++
+            Write-Output "Failed to delete database file."
+        }
+    }
 }
