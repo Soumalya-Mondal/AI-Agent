@@ -8,9 +8,29 @@ and validate required environment variables.
 try:
     import os
     from dataclasses import dataclass
+    from log.logwritter import write_execution_log
+
+    write_execution_log(
+        log_message="Config:S1 - Imported configuration modules successfully.",
+        step_name="Config:S1",
+        log_level="SUCCESS",
+    )
 except Exception as error:
     # Fallback print; can be replaced by a proper error reporting system if needed
     print(f"ERROR - [Config:S1] - {str(error)}")
+
+    def write_execution_log(
+        log_message: str,
+        step_name: str = "",
+        log_level: str = "SUCCESS",
+    ) -> bool:
+        return False
+
+    write_execution_log(
+        log_message=f"Config:S1 - Failed to import configuration modules: {str(error)}",
+        step_name="Config:S1",
+        log_level="ERROR",
+    )
 
 
 # Define Config Dataclass:S2
@@ -24,18 +44,44 @@ class AppConfig:
     system_prompt: str
 
 
+write_execution_log(
+    log_message="Config:S2 - AppConfig dataclass defined successfully.",
+    step_name="Config:S2",
+    log_level="SUCCESS",
+)
+
+
 # Load Configuration From Environment:S3
 def load_app_config() -> AppConfig:
     """Load and validate required configuration from environment variables."""
+    write_execution_log(
+        log_message="Config:S3 - load_app_config execution started.",
+        step_name="Config:S3",
+        log_level="SUCCESS",
+    )
+
     # Read Environment Variables:S4
-    api_endpoint = os.environ.get("API_ENDPOINT", "").strip()
-    api_key = os.environ.get("API_KEY", "").strip()
-    api_version = os.environ.get("API_VERSION", "").strip()
-    chat_model_name = os.environ.get("CHAT_MODEL_NAME", "").strip()
-    open_weather_api_key = os.environ.get("OPEN_WEATHER_API_KEY", "").strip()
-    system_prompt = os.environ.get(
-        "SYSTEM_PROMPT", "You Are A Helpful Assistant."
-    ).strip()
+    try:
+        api_endpoint = os.environ.get("API_ENDPOINT", "").strip()
+        api_key = os.environ.get("API_KEY", "").strip()
+        api_version = os.environ.get("API_VERSION", "").strip()
+        chat_model_name = os.environ.get("CHAT_MODEL_NAME", "").strip()
+        open_weather_api_key = os.environ.get("OPEN_WEATHER_API_KEY", "").strip()
+        system_prompt = os.environ.get(
+            "SYSTEM_PROMPT", "You Are A Helpful Assistant."
+        ).strip()
+        write_execution_log(
+            log_message="Config:S4 - Environment variables read successfully.",
+            step_name="Config:S4",
+            log_level="SUCCESS",
+        )
+    except Exception as error:
+        write_execution_log(
+            log_message=f"Config:S4 - Failed to read environment variables: {str(error)}",
+            step_name="Config:S4",
+            log_level="ERROR",
+        )
+        raise
 
     # Validate Required Configuration:S5
     missing = []
@@ -52,10 +98,23 @@ def load_app_config() -> AppConfig:
 
     if missing:
         missing_str = ", ".join(missing)
+        write_execution_log(
+            log_message=(
+                f"Config:S5 - Missing required environment variables: {missing_str}"
+            ),
+            step_name="Config:S5",
+            log_level="ERROR",
+        )
         raise RuntimeError(f"Missing required environment variables: {missing_str}")
 
+    write_execution_log(
+        log_message="Config:S5 - Required configuration validated successfully.",
+        step_name="Config:S5",
+        log_level="SUCCESS",
+    )
+
     # Return Config Object:S6
-    return AppConfig(
+    app_config = AppConfig(
         api_endpoint=api_endpoint,
         api_key=api_key,
         api_version=api_version,
@@ -63,3 +122,9 @@ def load_app_config() -> AppConfig:
         open_weather_api_key=open_weather_api_key,
         system_prompt=system_prompt,
     )
+    write_execution_log(
+        log_message="Config:S6 - AppConfig object created successfully.",
+        step_name="Config:S6",
+        log_level="SUCCESS",
+    )
+    return app_config

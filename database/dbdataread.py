@@ -10,9 +10,26 @@ def get_recent_conversations(db_file_path: str, limit: int = 10):
     # Importing Python Modules:S1
     try:
         import sqlite3
+        from log.logwritter import write_execution_log
+
+        write_execution_log(
+            log_message="DB-Data-Read:S1 - Imported sqlite3 and logger modules successfully.",
+            step_name="DB-Data-Read:S1",
+            log_level="SUCCESS",
+        )
     except Exception as error:
         # If imports fail, we still want a meaningful error message.
         print(f"ERROR - [DB-Data-Read:S1] - {str(error)}")
+        try:
+            write_execution_log(
+                log_message=(
+                    f"DB-Data-Read:S1 - Failed to import required modules: {str(error)}"
+                ),
+                step_name="DB-Data-Read:S1",
+                log_level="ERROR",
+            )
+        except Exception:
+            pass
         return []
 
     # Fetch Recent Conversations:S2
@@ -24,7 +41,21 @@ def get_recent_conversations(db_file_path: str, limit: int = 10):
                 (limit,),
             )
             rows = database_cursor.fetchall()
+            write_execution_log(
+                log_message=(
+                    f"DB-Data-Read:S2 - Retrieved {len(rows)} conversation rows successfully."
+                ),
+                step_name="DB-Data-Read:S2",
+                log_level="SUCCESS",
+            )
             return rows
     except Exception as error:
         print(f"ERROR - [DB-Data-Read:S2] - {str(error)}")
+        write_execution_log(
+            log_message=(
+                f"DB-Data-Read:S2 - Failed to fetch recent conversations: {str(error)}"
+            ),
+            step_name="DB-Data-Read:S2",
+            log_level="ERROR",
+        )
         return []
