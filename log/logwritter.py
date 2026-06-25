@@ -13,6 +13,7 @@ def write_execution_log(
     try:
         from datetime import datetime
         from pathlib import Path
+        import re
     except Exception as error:
         print(f"ERROR - [Log-Writter:S1] - {str(error)}")
         return False
@@ -27,6 +28,12 @@ def write_execution_log(
         if not normalized_message:
             print("ERROR - [Log-Writter:S2] - log_message cannot be empty")
             return False
+
+        normalized_message = re.sub(
+            r"(:S)(\d+)\b",
+            lambda match: f"{match.group(1)}{match.group(2).zfill(2)}",
+            normalized_message,
+        )
     except Exception as error:
         print(f"ERROR - [Log-Writter:S2] - {str(error)}")
         return False
