@@ -9,7 +9,7 @@ try:
     import os
     from dataclasses import dataclass
 except Exception as error:
-    # Fallback print; will be replaced by logging once logging is configured
+    # Fallback print; can be replaced by a proper error reporting system if needed
     print(f"ERROR - [Config:S1] - {str(error)}")
 
 

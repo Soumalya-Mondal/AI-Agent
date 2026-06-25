@@ -6,17 +6,15 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
 
     # Importing Python Modules:S2
     try:
-        import os
-        import logging
         from langchain_openai import AzureChatOpenAI
         from langchain.agents import create_agent
         from langchain_core.messages import HumanMessage
         from pydantic import SecretStr
         from tools.getweathertool import get_weather
         from database.dbdatainsert import insert_conversation
-        from config import AppConfig, load_app_config
+        from supportscript.config import AppConfig, load_app_config
     except Exception as error:
-        # If logging import fails, we still want a meaningful error message.
+        # If imports fail, we still want a meaningful error message.
         print(f"ERROR - [LLM-Response:S2] - {str(error)}")
         return {
             "status": "ERROR",
@@ -38,7 +36,7 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
             temperature=0,
         )
     except Exception as error:
-        logging.error(f"ERROR - [LLM-Response:S3] - {str(error)}")
+        print(f"ERROR - [LLM-Response:S3] - {str(error)}")
         return {
             "status": "ERROR",
             "error_code": "MODEL_ERROR",
@@ -60,7 +58,7 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
             ),
         )
     except Exception as error:
-        logging.error(f"ERROR - [LLM-Response:S4] - {str(error)}")
+        print(f"ERROR - [LLM-Response:S4] - {str(error)}")
         return {
             "status": "ERROR",
             "error_code": "AGENT_ERROR",
@@ -88,7 +86,7 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
                 else getattr(usage, "output_tokens", 0)
             )
     except Exception as error:
-        logging.error(f"ERROR - [LLM-Response:S5] - {str(error)}")
+        print(f"ERROR - [LLM-Response:S5] - {str(error)}")
         return {
             "status": "ERROR",
             "error_code": "INVOCATION_ERROR",
@@ -108,7 +106,7 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
             output_token=output_tokens,
         )
     except Exception as error:
-        logging.error(f"ERROR - [LLM-Response:S6] - {str(error)}")
+        print(f"ERROR - [LLM-Response:S6] - {str(error)}")
         return {
             "status": "ERROR",
             "error_code": "DB_ERROR",

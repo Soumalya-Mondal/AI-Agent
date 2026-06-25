@@ -3,51 +3,48 @@ try:
     from flask import Flask, request, jsonify, render_template
     from pathlib import Path
     from dotenv import load_dotenv
-    import logging
 except Exception as error:
-    print(f'ERROR - [Main:S1] - {str(error)}')
+    print(f"ERROR - [Main:S1] - {str(error)}")
 
 # Import Modules:S2
 try:
-    from tools.llmresponse import get_llm_response
+    from supportscript.llmresponse import get_llm_response
     from database.initdb import init_db
     from database.dbdataread import get_recent_conversations
-    from config import load_app_config, AppConfig
+    from supportscript.config import load_app_config, AppConfig
 except Exception as error:
     print(f'ERROR - [Main:S2] - {str(error)}')
 
-# Configure Logging:S3
-try:
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    )
-    logger = logging.getLogger(__name__)
-except Exception as error:
-    print(f"ERROR - [Main:S3] - {str(error)}")
+# Note: Logging has been removed. Errors and informational messages
+# are reported using simple print statements instead.
 
 # Define Flask Object:S3
 try:
-    app = Flask(__name__, template_folder='frontend', static_folder='frontend/static', static_url_path='/static')
+    app = Flask(
+        __name__,
+        template_folder="frontend",
+        static_folder="frontend/static",
+        static_url_path="/static",
+    )
 except Exception as error:
-    print(f'ERROR - [Main:S3] - {str(error)}')
+    print(f"ERROR - [Main:S3] - {str(error)}")
 
 # Define Folder And File Path:S4
 try:
     parent_folder_path = Path.cwd()
-    env_file_path = parent_folder_path / '.env'
-    database_folder_path = parent_folder_path / 'database'
-    database_file_path = database_folder_path / 'chat_conversations.db'
+    env_file_path = parent_folder_path / ".env"
+    database_folder_path = parent_folder_path / "database"
+    database_file_path = database_folder_path / "chat_conversations.db"
 except Exception as error:
-    print(f'ERROR - [Main:S4] - {str(error)}')
+    print(f"ERROR - [Main:S4] - {str(error)}")
 
 # Load Environment Variables at OS Level:S5
 try:
     load_dotenv(dotenv_path=env_file_path)
     app_config: AppConfig = load_app_config()
-    logger.info("Application configuration loaded successfully")
+    print("INFO - [Main:S5] - Application configuration loaded successfully")
 except Exception as error:
-    logger.error(f"ERROR - [Main:S5] - Failed to load configuration: {str(error)}")
+    print(f"ERROR - [Main:S5] - Failed to load configuration: {str(error)}")
     raise
 
 # Initialize Database:S6
@@ -55,7 +52,7 @@ try:
     if not database_file_path.exists():
         init_db(str(database_file_path))
 except Exception as error:
-    print(f'ERROR - [Main:S6] - {str(error)}')
+    print(f"ERROR - [Main:S6] - {str(error)}")
 
 
 # Route to serve the chat interface
@@ -76,7 +73,9 @@ def chat():
             return jsonify({"error": "Message Cannot Be Empty"}), 400
 
         # Calling "get_llm_response" Function For Answer Generation
-        llm_response_result = get_llm_response(user_message=user_message, db_file_path=str(database_file_path))
+        llm_response_result = get_llm_response(
+            user_message=user_message, db_file_path=str(database_file_path)
+        )
 
         if llm_response_result["status"] == "SUCCESS":
             return jsonify({
@@ -86,18 +85,27 @@ def chat():
             }), 200
         else:
             error_code = llm_response_result.get("error_code", "UNKNOWN_ERROR")
-            message = llm_response_result.get("message", "Failed To Generate Response")
+            message = llm_response_result.get(
+                "message", "Failed To Generate Response"
+            )
 
             status_code = 500
             if error_code in ("CONFIG_ERROR", "IMPORT_ERROR"):
                 status_code = 500
-            elif error_code in ("MODEL_ERROR", "AGENT_ERROR", "INVOCATION_ERROR", "DB_ERROR"):
+            elif error_code in (
+                "MODEL_ERROR",
+                "AGENT_ERROR",
+                "INVOCATION_ERROR",
+                "DB_ERROR",
+            ):
                 status_code = 502
 
             return jsonify({"error": message, "error_code": error_code}), status_code
     except Exception as error:
-        logger.exception(f"ERROR - [Main:S7] - {str(error)}")
-        return jsonify({"error": "Failed To Generate Response", "error_code": "UNKNOWN_ERROR"}), 500
+        print(f"ERROR - [Main:S7] - {str(error)}")
+        return jsonify(
+            {"error": "Failed To Generate Response", "error_code": "UNKNOWN_ERROR"}
+        ), 500
 
 
 # Health Check Route:S8
@@ -107,11 +115,15 @@ def health():
         # Simple health check: configuration and DB file existence
         _ = app_config  # ensure config is loaded
         if not database_file_path.exists():
-            return jsonify({"status": "error", "details": "Database file missing"}), 500
+            return jsonify(
+                {"status": "error", "details": "Database file missing"}
+            ), 500
         return jsonify({"status": "ok"}), 200
     except Exception as error:
-        logger.exception(f"ERROR - [Main:S8] - {str(error)}")
-        return jsonify({"status": "error", "details": "Health check failed"}), 500
+        print(f"ERROR - [Main:S8] - {str(error)}")
+        return jsonify(
+            {"status": "error", "details": "Health check failed"}
+        ), 500
 
 
 # History API Route:S9
@@ -137,8 +149,8 @@ def history():
         ]
         return jsonify({"conversations": history_data}), 200
     except Exception as error:
-        logger.exception(f"ERROR - [Main:S9] - {str(error)}")
+        print(f"ERROR - [Main:S9] - {str(error)}")
         return jsonify({"error": "Failed To Fetch History"}), 500
 
-if __name__ == '__main__':
-    app.run(debug = True, host = '0.0.0.0', port = 5000)
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5000)

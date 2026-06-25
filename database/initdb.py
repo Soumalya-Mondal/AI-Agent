@@ -7,9 +7,8 @@ def init_db(db_file_path: str) -> None:
     # Importing Python Module:S1
     try:
         import sqlite3
-        import logging
     except Exception as error:
-        # If logging import fails, we still want a meaningful error message.
+        # If imports fail, we still want a meaningful error message.
         print(f"ERROR - [Init-DB:S1] - {str(error)}")
         return
 
@@ -18,7 +17,7 @@ def init_db(db_file_path: str) -> None:
         database_connection = sqlite3.connect(db_file_path)
         database_cursor = database_connection.cursor()
     except Exception as error:
-        logging.error(f"ERROR - [Init-DB:S2] - {str(error)}")
+        print(f"ERROR - [Init-DB:S2] - {str(error)}")
         return
 
     # Create "conversations" Table:S3
@@ -36,6 +35,6 @@ def init_db(db_file_path: str) -> None:
         )
         database_connection.commit()
     except Exception as error:
-        logging.error(f"ERROR - [Init-DB:S3] - {str(error)}")
+        print(f"ERROR - [Init-DB:S3] - {str(error)}")
     finally:
         database_connection.close()

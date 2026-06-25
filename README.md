@@ -29,8 +29,10 @@ AI-Agent/
 ├── frontend/              # Web interface (HTML/CSS/JS)
 │   ├── index.html
 │   └── static/
+├── supportscript/         # Shared support modules
+│   ├── config.py          # Centralized environment configuration loader
+│   └── llmresponse.py     # LLM agent orchestration & response generation
 ├── tools/                 # Custom agent tools
-│   ├── llmresponse.py     # LLM agent orchestration & response generation
 │   └── getweathertool.py  # Real-time weather data retrieval
 ├── database/              # Data persistence layer
 │   ├── initdb.py          # Database initialization & schema
@@ -140,12 +142,17 @@ Handles user messages and returns AI responses
 - Database initialization on startup
 - Error handling and logging
 
-### `tools/llmresponse.py` - LLM Agent Orchestration
+### `supportscript/llmresponse.py` - LLM Agent Orchestration
 - Creates Azure OpenAI LLM instance with zero temperature (deterministic responses)
 - Initializes LangChain agent with available tools
 - Handles agent invocation and response processing
 - Extracts token usage metrics from responses
 - Persists conversations to database
+
+### `supportscript/config.py` - Configuration Loader
+- Defines `AppConfig` dataclass for strongly-typed environment settings
+- Validates required environment variables at startup
+- Exposes `load_app_config()` used across app and tools
 
 ### `tools/getweathertool.py` - Weather Tool
 - Queries OpenWeatherMap Geocoding API for city coordinates

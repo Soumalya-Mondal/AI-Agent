@@ -13,9 +13,8 @@ def insert_conversation(
     # Importing Python Modules:S1
     try:
         import sqlite3
-        import logging
     except Exception as error:
-        # If logging import fails, we still want a meaningful error message.
+        # If imports fail, we still want a meaningful error message.
         print(f"ERROR - [DB-Data-Insert:S1] - {str(error)}")
         return
 
@@ -32,6 +31,6 @@ def insert_conversation(
                 )
                 database_connection.commit()
             except Exception as error:
-                logging.error(f"ERROR - [DB-Data-Insert:S3] - {str(error)}")
+                print(f"ERROR - [DB-Data-Insert:S3] - {str(error)}")
     except Exception as error:
-        logging.error(f"ERROR - [DB-Data-Insert:S2] - {str(error)}")
+        print(f"ERROR - [DB-Data-Insert:S2] - {str(error)}")

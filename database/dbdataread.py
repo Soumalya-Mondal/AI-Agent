@@ -10,9 +10,8 @@ def get_recent_conversations(db_file_path: str, limit: int = 10):
     # Importing Python Modules:S1
     try:
         import sqlite3
-        import logging
     except Exception as error:
-        # If logging import fails, we still want a meaningful error message.
+        # If imports fail, we still want a meaningful error message.
         print(f"ERROR - [DB-Data-Read:S1] - {str(error)}")
         return []
 
@@ -27,5 +26,5 @@ def get_recent_conversations(db_file_path: str, limit: int = 10):
             rows = database_cursor.fetchall()
             return rows
     except Exception as error:
-        logging.error(f"ERROR - [DB-Data-Read:S2] - {str(error)}")
+        print(f"ERROR - [DB-Data-Read:S2] - {str(error)}")
         return []
