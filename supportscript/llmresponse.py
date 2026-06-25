@@ -1,3 +1,45 @@
+def _message_content_to_text(content: object) -> str:
+    if isinstance(content, str):
+        return content.strip()
+
+    if isinstance(content, list):
+        text_parts = []
+        for item in content:
+            if isinstance(item, str):
+                normalized_text = item.strip()
+                if normalized_text:
+                    text_parts.append(normalized_text)
+            elif isinstance(item, dict):
+                item_text = item.get("text", "")
+                if isinstance(item_text, str):
+                    normalized_text = item_text.strip()
+                    if normalized_text:
+                        text_parts.append(normalized_text)
+        return " ".join(text_parts).strip()
+
+    if content is None:
+        return ""
+
+    return str(content).strip()
+
+
+def select_assistant_message(messages: list) -> str:
+    if not messages:
+        return "No Response Generated"
+
+    fallback_response = _message_content_to_text(getattr(messages[-1], "content", ""))
+    if not fallback_response:
+        fallback_response = "No Response Generated"
+
+    for message in reversed(messages):
+        if getattr(message, "type", "") == "tool":
+            tool_response = _message_content_to_text(getattr(message, "content", ""))
+            if tool_response:
+                return tool_response
+
+    return fallback_response
+
+
 # Define "get_llm_response" Function
 def get_llm_response(user_message: str, db_file_path: str) -> dict:
     # Define Constant:S1
@@ -55,6 +97,7 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
             system_prompt=(
                 app_config.system_prompt
                 + "\nIf the user asks about current weather, temperature, humidity, or climate in any city, use the get_weather tool instead of guessing."
+                + "\nWhen you use get_weather, return the tool output exactly as-is and do not use markdown formatting."
             ),
         )
     except Exception as error:
@@ -71,8 +114,9 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
     # Generate LLM Response:S5
     try:
         llm_response = llm_agent.invoke({"messages": [HumanMessage(content=user_message)]})
-        assistant_response = llm_response["messages"][-1].content
-        last_message = llm_response["messages"][-1]
+        response_messages = llm_response["messages"]
+        assistant_response = select_assistant_message(response_messages)
+        last_message = response_messages[-1]
         if hasattr(last_message, "usage_metadata") and last_message.usage_metadata:
             usage = last_message.usage_metadata
             input_tokens = (

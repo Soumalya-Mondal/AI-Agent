@@ -1,3 +1,12 @@
+def format_weather_summary(city: str, weather_data: dict) -> str:
+    """Return a consistent plain-text weather summary sentence."""
+    return (
+        f"The weather in {city} is currently {weather_data['weather'][0]['description']}, "
+        f"around {weather_data['main']['temp']}°C (feels like {weather_data['main']['feels_like']}°C), "
+        f"with about {weather_data['main']['humidity']}% humidity."
+    )
+
+
 def get_weather(city: str) -> str:
     """
     Retrieve the current weather conditions for a given city.
@@ -29,6 +38,7 @@ def get_weather(city: str) -> str:
         if not app_config.open_weather_api_key:
             print("ERROR - [Weather:S2] - OPEN_WEATHER_API_KEY missing")
             return "Weather service configuration appears invalid. Please contact support."
+        resolved_city_name = city
     except Exception as error:
         print(f"ERROR - [Weather:S2] - {str(error)}")
         return "Unable to Fetch Weather Information"
@@ -60,6 +70,7 @@ def get_weather(city: str) -> str:
                 )
             city_lat = geo_data[0]["lat"]
             city_lon = geo_data[0]["lon"]
+            resolved_city_name = geo_data[0].get("name", city)
         else:
             return "Weather Data Unavailable for the Requested City"
     except Exception as error:
@@ -87,11 +98,9 @@ def get_weather(city: str) -> str:
     try:
         if city_weather_response.status_code == 200:
             city_weather_reponse_data = city_weather_response.json()
-            return (
-                f"The weather in {city} is {city_weather_reponse_data['weather'][0]['description']}, "
-                f"{city_weather_reponse_data['main']['temp']}°C (feels like {city_weather_reponse_data['main']['feels_like']}°C, "
-                f"min {city_weather_reponse_data['main']['temp_min']}°C, max {city_weather_reponse_data['main']['temp_max']}°C), "
-                f"humidity {city_weather_reponse_data['main']['humidity']}%."
+            return format_weather_summary(
+                city=resolved_city_name,
+                weather_data=city_weather_reponse_data,
             )
         else:
             return "Unable to Fetch Weather Information"
