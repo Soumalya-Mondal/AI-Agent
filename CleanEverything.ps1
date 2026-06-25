@@ -80,3 +80,20 @@ if (Test-Path $dbPath) {
         }
     }
 }
+
+$logPath = Join-Path -Path $parentFolderPath -ChildPath "log/aiagent.log"
+if (Test-Path $logPath) {
+    Write-Output ""
+    $deleteLog = Read-Host "Also delete log file 'log\aiagent.log'? [y/N]"
+    if ($deleteLog -match '^[Yy]') {
+        try {
+            Remove-Item -LiteralPath $logPath -Force -ErrorAction Stop
+            $deletedCount++
+            Write-Output "Log file deleted."
+        }
+        catch {
+            $failedCount++
+            Write-Output "Failed to delete log file."
+        }
+    }
+}

@@ -1,6 +1,4 @@
 """Execution log writing helpers."""
-
-
 # Define "write_execution_log" Function
 def write_execution_log(
     log_message: str,
