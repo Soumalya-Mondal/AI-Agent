@@ -14,7 +14,8 @@ def get_recent_conversations(db_file_path: str, limit: int = 10):
 
         write_execution_log(
             log_message="DB-Data-Read:S1 - Imported sqlite3 and logger modules successfully.",
-            step_name="DB-Data-Read:S1",
+            file_name="DB-Data-Read",
+            step_number="S1",
             log_level="SUCCESS",
         )
     except Exception as error:
@@ -25,7 +26,8 @@ def get_recent_conversations(db_file_path: str, limit: int = 10):
                 log_message=(
                     f"DB-Data-Read:S1 - Failed to import required modules: {str(error)}"
                 ),
-                step_name="DB-Data-Read:S1",
+                file_name="DB-Data-Read",
+                step_number="S1",
                 log_level="ERROR",
             )
         except Exception:
@@ -45,7 +47,8 @@ def get_recent_conversations(db_file_path: str, limit: int = 10):
                 log_message=(
                     f"DB-Data-Read:S2 - Retrieved {len(rows)} conversation rows successfully."
                 ),
-                step_name="DB-Data-Read:S2",
+                file_name="DB-Data-Read",
+                step_number="S2",
                 log_level="SUCCESS",
             )
             return rows
@@ -55,7 +58,8 @@ def get_recent_conversations(db_file_path: str, limit: int = 10):
             log_message=(
                 f"DB-Data-Read:S2 - Failed to fetch recent conversations: {str(error)}"
             ),
-            step_name="DB-Data-Read:S2",
+            file_name="DB-Data-Read",
+            step_number="S2",
             log_level="ERROR",
         )
         return []

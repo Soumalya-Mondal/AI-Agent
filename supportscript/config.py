@@ -12,7 +12,8 @@ try:
 
     write_execution_log(
         log_message="Config:S1 - Imported configuration modules successfully.",
-        step_name="Config:S1",
+        file_name="Config",
+        step_number="S1",
         log_level="SUCCESS",
     )
 except Exception as error:
@@ -21,14 +22,16 @@ except Exception as error:
 
     def write_execution_log(
         log_message: str,
-        step_name: str = "",
+        file_name: str,
+        step_number: str,
         log_level: str = "SUCCESS",
     ) -> bool:
         return False
 
     write_execution_log(
         log_message=f"Config:S1 - Failed to import configuration modules: {str(error)}",
-        step_name="Config:S1",
+        file_name="Config",
+        step_number="S1",
         log_level="ERROR",
     )
 
@@ -46,7 +49,8 @@ class AppConfig:
 
 write_execution_log(
     log_message="Config:S2 - AppConfig dataclass defined successfully.",
-    step_name="Config:S2",
+    file_name="Config",
+    step_number="S2",
     log_level="SUCCESS",
 )
 
@@ -56,7 +60,8 @@ def load_app_config() -> AppConfig:
     """Load and validate required configuration from environment variables."""
     write_execution_log(
         log_message="Config:S3 - load_app_config execution started.",
-        step_name="Config:S3",
+        file_name="Config",
+        step_number="S3",
         log_level="SUCCESS",
     )
 
@@ -72,13 +77,15 @@ def load_app_config() -> AppConfig:
         ).strip()
         write_execution_log(
             log_message="Config:S4 - Environment variables read successfully.",
-            step_name="Config:S4",
+            file_name="Config",
+            step_number="S4",
             log_level="SUCCESS",
         )
     except Exception as error:
         write_execution_log(
             log_message=f"Config:S4 - Failed to read environment variables: {str(error)}",
-            step_name="Config:S4",
+            file_name="Config",
+            step_number="S4",
             log_level="ERROR",
         )
         raise
@@ -102,14 +109,16 @@ def load_app_config() -> AppConfig:
             log_message=(
                 f"Config:S5 - Missing required environment variables: {missing_str}"
             ),
-            step_name="Config:S5",
+            file_name="Config",
+            step_number="S5",
             log_level="ERROR",
         )
         raise RuntimeError(f"Missing required environment variables: {missing_str}")
 
     write_execution_log(
         log_message="Config:S5 - Required configuration validated successfully.",
-        step_name="Config:S5",
+        file_name="Config",
+        step_number="S5",
         log_level="SUCCESS",
     )
 
@@ -124,7 +133,8 @@ def load_app_config() -> AppConfig:
     )
     write_execution_log(
         log_message="Config:S6 - AppConfig object created successfully.",
-        step_name="Config:S6",
+        file_name="Config",
+        step_number="S6",
         log_level="SUCCESS",
     )
     return app_config

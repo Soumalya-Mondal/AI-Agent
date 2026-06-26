@@ -31,7 +31,8 @@ def get_weather(city: str) -> str:
 
         write_execution_log(
             log_message="Weather:S1 - Imported weather dependencies successfully.",
-            step_name="Weather:S1",
+            file_name="Weather",
+            step_number="S1",
             log_level="SUCCESS",
         )
     except Exception as error:
@@ -42,7 +43,8 @@ def get_weather(city: str) -> str:
                 log_message=(
                     f"Weather:S1 - Failed to import weather dependencies: {str(error)}"
                 ),
-                step_name="Weather:S1",
+                file_name="Weather",
+                step_number="S1",
                 log_level="ERROR",
             )
         except Exception:
@@ -56,21 +58,24 @@ def get_weather(city: str) -> str:
             print("ERROR - [Weather:S2] - OPEN_WEATHER_API_KEY missing")
             write_execution_log(
                 log_message="Weather:S2 - OPEN_WEATHER_API_KEY is missing.",
-                step_name="Weather:S2",
+                file_name="Weather",
+                step_number="S2",
                 log_level="ERROR",
             )
             return "Weather service configuration appears invalid. Please contact support."
         resolved_city_name = city
         write_execution_log(
             log_message="Weather:S2 - Weather configuration loaded successfully.",
-            step_name="Weather:S2",
+            file_name="Weather",
+            step_number="S2",
             log_level="SUCCESS",
         )
     except Exception as error:
         print(f"ERROR - [Weather:S2] - {str(error)}")
         write_execution_log(
             log_message=f"Weather:S2 - Failed to load weather configuration: {str(error)}",
-            step_name="Weather:S2",
+            file_name="Weather",
+            step_number="S2",
             log_level="ERROR",
         )
         return "Unable to Fetch Weather Information"
@@ -89,14 +94,16 @@ def get_weather(city: str) -> str:
         )
         write_execution_log(
             log_message="Weather:S3 - Geo-coordinate API called successfully.",
-            step_name="Weather:S3",
+            file_name="Weather",
+            step_number="S3",
             log_level="SUCCESS",
         )
     except requests.RequestException as error:
         print(f"ERROR - [Weather:S3] - {str(error)}")
         write_execution_log(
             log_message=f"Weather:S3 - Failed to call geo-coordinate API: {str(error)}",
-            step_name="Weather:S3",
+            file_name="Weather",
+            step_number="S3",
             log_level="ERROR",
         )
         return "Unable to reach the weather service."
@@ -110,7 +117,8 @@ def get_weather(city: str) -> str:
                     log_message=(
                         f"Weather:S4 - No geo-coordinate data found for city '{city}'."
                     ),
-                    step_name="Weather:S4",
+                    file_name="Weather",
+                    step_number="S4",
                     log_level="ERROR",
                 )
                 return (
@@ -122,7 +130,8 @@ def get_weather(city: str) -> str:
             resolved_city_name = geo_data[0].get("name", city)
             write_execution_log(
                 log_message="Weather:S4 - City geo-coordinates resolved successfully.",
-                step_name="Weather:S4",
+                file_name="Weather",
+                step_number="S4",
                 log_level="SUCCESS",
             )
         else:
@@ -130,7 +139,8 @@ def get_weather(city: str) -> str:
                 log_message=(
                     "Weather:S4 - Geo-coordinate API returned non-200 status code."
                 ),
-                step_name="Weather:S4",
+                file_name="Weather",
+                step_number="S4",
                 log_level="ERROR",
             )
             return "Weather Data Unavailable for the Requested City"
@@ -138,7 +148,8 @@ def get_weather(city: str) -> str:
         print(f"ERROR - [Weather:S4] - {str(error)}")
         write_execution_log(
             log_message=f"Weather:S4 - Failed to parse geo-coordinate response: {str(error)}",
-            step_name="Weather:S4",
+            file_name="Weather",
+            step_number="S4",
             log_level="ERROR",
         )
         return "Weather Data Unavailable for the Requested City"
@@ -158,14 +169,16 @@ def get_weather(city: str) -> str:
         )
         write_execution_log(
             log_message="Weather:S5 - Weather API called successfully.",
-            step_name="Weather:S5",
+            file_name="Weather",
+            step_number="S5",
             log_level="SUCCESS",
         )
     except requests.RequestException as error:
         print(f"ERROR - [Weather:S5] - {str(error)}")
         write_execution_log(
             log_message=f"Weather:S5 - Failed to call weather API: {str(error)}",
-            step_name="Weather:S5",
+            file_name="Weather",
+            step_number="S5",
             log_level="ERROR",
         )
         return "Unable to reach the weather service."
@@ -176,7 +189,8 @@ def get_weather(city: str) -> str:
             city_weather_reponse_data = city_weather_response.json()
             write_execution_log(
                 log_message="Weather:S6 - Weather data fetched successfully.",
-                step_name="Weather:S6",
+                file_name="Weather",
+                step_number="S6",
                 log_level="SUCCESS",
             )
             return format_weather_summary(
@@ -186,7 +200,8 @@ def get_weather(city: str) -> str:
         else:
             write_execution_log(
                 log_message="Weather:S6 - Weather API returned non-200 status code.",
-                step_name="Weather:S6",
+                file_name="Weather",
+                step_number="S6",
                 log_level="ERROR",
             )
             return "Unable to Fetch Weather Information"
@@ -194,7 +209,8 @@ def get_weather(city: str) -> str:
         print(f"ERROR - [Weather:S6] - {str(error)}")
         write_execution_log(
             log_message=f"Weather:S6 - Failed to parse weather response: {str(error)}",
-            step_name="Weather:S6",
+            file_name="Weather",
+            step_number="S6",
             log_level="ERROR",
         )
         return "Unable to Fetch Weather Information"

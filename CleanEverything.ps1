@@ -81,19 +81,19 @@ if (Test-Path $dbPath) {
     }
 }
 
-$logPath = Join-Path -Path $parentFolderPath -ChildPath "log/aiagent.log"
+$logPath = Join-Path -Path $parentFolderPath -ChildPath "log/aiagentlogs.db"
 if (Test-Path $logPath) {
     Write-Output ""
-    $deleteLog = Read-Host "Also delete log file 'log\aiagent.log'? [y/N]"
+    $deleteLog = Read-Host "Also delete log database file 'log\aiagentlogs.db'? [y/N]"
     if ($deleteLog -match '^[Yy]') {
         try {
             Remove-Item -LiteralPath $logPath -Force -ErrorAction Stop
             $deletedCount++
-            Write-Output "Log file deleted."
+            Write-Output "Log database file deleted."
         }
         catch {
             $failedCount++
-            Write-Output "Failed to delete log file."
+            Write-Output "Failed to delete log database file."
         }
     }
 }

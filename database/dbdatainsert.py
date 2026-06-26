@@ -17,7 +17,8 @@ def insert_conversation(
 
         write_execution_log(
             log_message="DB-Data-Insert:S1 - Imported sqlite3 and logger modules successfully.",
-            step_name="DB-Data-Insert:S1",
+            file_name="DB-Data-Insert",
+            step_number="S1",
             log_level="SUCCESS",
         )
     except Exception as error:
@@ -28,7 +29,8 @@ def insert_conversation(
                 log_message=(
                     f"DB-Data-Insert:S1 - Failed to import required modules: {str(error)}"
                 ),
-                step_name="DB-Data-Insert:S1",
+                file_name="DB-Data-Insert",
+                step_number="S1",
                 log_level="ERROR",
             )
         except Exception:
@@ -41,7 +43,8 @@ def insert_conversation(
             database_cursor = database_connection.cursor()
             write_execution_log(
                 log_message="DB-Data-Insert:S2 - Database connection created successfully.",
-                step_name="DB-Data-Insert:S2",
+                file_name="DB-Data-Insert",
+                step_number="S2",
                 log_level="SUCCESS",
             )
 
@@ -54,7 +57,8 @@ def insert_conversation(
                 database_connection.commit()
                 write_execution_log(
                     log_message="DB-Data-Insert:S3 - Conversation inserted successfully.",
-                    step_name="DB-Data-Insert:S3",
+                    file_name="DB-Data-Insert",
+                    step_number="S3",
                     log_level="SUCCESS",
                 )
             except Exception as error:
@@ -63,7 +67,8 @@ def insert_conversation(
                     log_message=(
                         f"DB-Data-Insert:S3 - Failed to insert conversation: {str(error)}"
                     ),
-                    step_name="DB-Data-Insert:S3",
+                    file_name="DB-Data-Insert",
+                    step_number="S3",
                     log_level="ERROR",
                 )
     except Exception as error:
@@ -72,6 +77,7 @@ def insert_conversation(
             log_message=(
                 f"DB-Data-Insert:S2 - Failed to create database connection: {str(error)}"
             ),
-            step_name="DB-Data-Insert:S2",
+            file_name="DB-Data-Insert",
+            step_number="S2",
             log_level="ERROR",
         )

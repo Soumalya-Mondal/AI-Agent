@@ -17,7 +17,8 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
 
         write_execution_log(
             log_message="LLM-Response:S1 - Imported LLM response modules successfully.",
-            step_name="LLM-Response:S1",
+            file_name="LLM-Response",
+            step_number="S1",
             log_level="SUCCESS",
         )
     except Exception as error:
@@ -28,7 +29,8 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
                 log_message=(
                     f"LLM-Response:S1 - Failed to import LLM response modules: {str(error)}"
                 ),
-                step_name="LLM-Response:S1",
+                file_name="LLM-Response",
+                step_number="S1",
                 log_level="ERROR",
             )
         except Exception:
@@ -54,14 +56,16 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
         )
         write_execution_log(
             log_message="LLM-Response:S2 - Azure LLM object created successfully.",
-            step_name="LLM-Response:S2",
+            file_name="LLM-Response",
+            step_number="S2",
             log_level="SUCCESS",
         )
     except Exception as error:
         print(f"ERROR - [LLM-Response:S2] - {str(error)}")
         write_execution_log(
             log_message=f"LLM-Response:S2 - Failed to create Azure LLM object: {str(error)}",
-            step_name="LLM-Response:S2",
+            file_name="LLM-Response",
+            step_number="S2",
             log_level="ERROR",
         )
         return {
@@ -87,14 +91,16 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
         )
         write_execution_log(
             log_message="LLM-Response:S3 - LLM agent created successfully.",
-            step_name="LLM-Response:S3",
+            file_name="LLM-Response",
+            step_number="S3",
             log_level="SUCCESS",
         )
     except Exception as error:
         print(f"ERROR - [LLM-Response:S3] - {str(error)}")
         write_execution_log(
             log_message=f"LLM-Response:S3 - Failed to create LLM agent: {str(error)}",
-            step_name="LLM-Response:S3",
+            file_name="LLM-Response",
+            step_number="S3",
             log_level="ERROR",
         )
         return {
@@ -133,7 +139,8 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
             return str(content).strip()
         write_execution_log(
             log_message="LLM-Response:S4 - _message_content_to_text defined successfully.",
-            step_name="LLM-Response:S4",
+            file_name="LLM-Response",
+            step_number="S4",
             log_level="SUCCESS",
         )
     except Exception as error:
@@ -142,7 +149,8 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
             log_message=(
                 f"LLM-Response:S4 - Failed to define _message_content_to_text: {str(error)}"
             ),
-            step_name="LLM-Response:S4",
+            file_name="LLM-Response",
+            step_number="S4",
             log_level="ERROR",
         )
         return {
@@ -177,7 +185,8 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
             return fallback_response
         write_execution_log(
             log_message="LLM-Response:S5 - select_assistant_message defined successfully.",
-            step_name="LLM-Response:S5",
+            file_name="LLM-Response",
+            step_number="S5",
             log_level="SUCCESS",
         )
     except Exception as error:
@@ -186,7 +195,8 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
             log_message=(
                 f"LLM-Response:S5 - Failed to define select_assistant_message: {str(error)}"
             ),
-            step_name="LLM-Response:S5",
+            file_name="LLM-Response",
+            step_number="S5",
             log_level="ERROR",
         )
         return {
@@ -218,14 +228,16 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
             )
         write_execution_log(
             log_message="LLM-Response:S6 - LLM response generated successfully.",
-            step_name="LLM-Response:S6",
+            file_name="LLM-Response",
+            step_number="S6",
             log_level="SUCCESS",
         )
     except Exception as error:
         print(f"ERROR - [LLM-Response:S6] - {str(error)}")
         write_execution_log(
             log_message=f"LLM-Response:S6 - Failed to invoke LLM agent: {str(error)}",
-            step_name="LLM-Response:S6",
+            file_name="LLM-Response",
+            step_number="S6",
             log_level="ERROR",
         )
         return {
@@ -248,7 +260,8 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
         )
         write_execution_log(
             log_message="LLM-Response:S7 - Conversation inserted into database successfully.",
-            step_name="LLM-Response:S7",
+            file_name="LLM-Response",
+            step_number="S7",
             log_level="SUCCESS",
         )
     except Exception as error:
@@ -257,7 +270,8 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
             log_message=(
                 f"LLM-Response:S7 - Failed to insert conversation into database: {str(error)}"
             ),
-            step_name="LLM-Response:S7",
+            file_name="LLM-Response",
+            step_number="S7",
             log_level="ERROR",
         )
         return {
@@ -272,7 +286,8 @@ def get_llm_response(user_message: str, db_file_path: str) -> dict:
     # Sending Final Message To Main Function:S8
     write_execution_log(
         log_message="LLM-Response:S8 - Returning successful response payload.",
-        step_name="LLM-Response:S8",
+        file_name="LLM-Response",
+        step_number="S8",
         log_level="SUCCESS",
     )
     return {

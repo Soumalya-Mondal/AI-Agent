@@ -7,7 +7,8 @@ try:
 
     write_execution_log(
         log_message="Main:S1 - Imported Python modules successfully.",
-        step_name="Main:S1",
+        file_name="Main",
+        step_number="S1",
         log_level="SUCCESS",
     )
 except Exception as error:
@@ -15,7 +16,8 @@ except Exception as error:
 
     def write_execution_log(
         log_message: str,
-        step_name: str = "",
+        file_name: str,
+        step_number: str,
         log_level: str = "SUCCESS",
     ) -> bool:
         return False
@@ -23,7 +25,8 @@ except Exception as error:
     try:
         write_execution_log(
             log_message=f"Main:S1 - Failed to import Python modules: {str(error)}",
-            step_name="Main:S1",
+            file_name="Main",
+            step_number="S1",
             log_level="ERROR",
         )
     except Exception:
@@ -38,7 +41,8 @@ try:
 
     write_execution_log(
         log_message="Main:S2 - Imported application modules successfully.",
-        step_name="Main:S2",
+        file_name="Main",
+        step_number="S2",
         log_level="SUCCESS",
     )
 except Exception as error:
@@ -46,14 +50,15 @@ except Exception as error:
     try:
         write_execution_log(
             log_message=f"Main:S2 - Failed to import application modules: {str(error)}",
-            step_name="Main:S2",
+            file_name="Main",
+            step_number="S2",
             log_level="ERROR",
         )
     except Exception:
         pass
 
-# Note: Logging has been removed. Errors and informational messages
-# are reported using simple print statements instead.
+# Note: Logging uses write_execution_log. Print statements remain for
+# immediate console visibility during startup and failures.
 
 # Define Flask Object:S3
 try:
@@ -65,14 +70,16 @@ try:
     )
     write_execution_log(
         log_message="Main:S3 - Flask app object created successfully.",
-        step_name="Main:S3",
+        file_name="Main",
+        step_number="S3",
         log_level="SUCCESS",
     )
 except Exception as error:
     print(f"ERROR - [Main:S3] - {str(error)}")
     write_execution_log(
         log_message=f"Main:S3 - Failed to create Flask app object: {str(error)}",
-        step_name="Main:S3",
+        file_name="Main",
+        step_number="S3",
         log_level="ERROR",
     )
 
@@ -84,14 +91,16 @@ try:
     database_file_path = database_folder_path / "chat_conversations.db"
     write_execution_log(
         log_message="Main:S4 - Application paths resolved successfully.",
-        step_name="Main:S4",
+        file_name="Main",
+        step_number="S4",
         log_level="SUCCESS",
     )
 except Exception as error:
     print(f"ERROR - [Main:S4] - {str(error)}")
     write_execution_log(
         log_message=f"Main:S4 - Failed to resolve application paths: {str(error)}",
-        step_name="Main:S4",
+        file_name="Main",
+        step_number="S4",
         log_level="ERROR",
     )
 
@@ -102,38 +111,35 @@ try:
     print("INFO - [Main:S5] - Application configuration loaded successfully")
     write_execution_log(
         log_message="Main:S5 - Environment variables and application configuration loaded successfully.",
-        step_name="Main:S5",
+        file_name="Main",
+        step_number="S5",
         log_level="SUCCESS",
     )
 except Exception as error:
     print(f"ERROR - [Main:S5] - Failed to load configuration: {str(error)}")
     write_execution_log(
         log_message=f"Main:S5 - Failed to load configuration: {str(error)}",
-        step_name="Main:S5",
+        file_name="Main",
+        step_number="S5",
         log_level="ERROR",
     )
     raise
 
 # Initialize Database:S6
 try:
-    if not database_file_path.exists():
-        init_db(str(database_file_path))
-        write_execution_log(
-            log_message="Main:S6 - Database initialized successfully.",
-            step_name="Main:S6",
-            log_level="SUCCESS",
-        )
-    else:
-        write_execution_log(
-            log_message="Main:S6 - Database already present; initialization skipped.",
-            step_name="Main:S6",
-            log_level="SUCCESS",
-        )
+    init_db(str(database_file_path))
+    write_execution_log(
+        log_message="Main:S6 - Database initialized successfully.",
+        file_name="Main",
+        step_number="S6",
+        log_level="SUCCESS",
+    )
 except Exception as error:
     print(f"ERROR - [Main:S6] - {str(error)}")
     write_execution_log(
         log_message=f"Main:S6 - Database initialization failed: {str(error)}",
-        step_name="Main:S6",
+        file_name="Main",
+        step_number="S6",
         log_level="ERROR",
     )
 
@@ -155,7 +161,8 @@ def chat():
         if not user_message:
             write_execution_log(
                 log_message="Main:S7 - Received empty user message.",
-                step_name="Main:S7",
+                file_name="Main",
+                step_number="S7",
                 log_level="ERROR",
             )
             return jsonify({"error": "Message Cannot Be Empty"}), 400
@@ -168,7 +175,8 @@ def chat():
         if llm_response_result["status"] == "SUCCESS":
             write_execution_log(
                 log_message="Main:S7 - Chat response generated successfully.",
-                step_name="Main:S7",
+                file_name="Main",
+                step_number="S7",
                 log_level="SUCCESS",
             )
             return jsonify({
@@ -197,7 +205,8 @@ def chat():
                 log_message=(
                     f"Main:S7 - Chat response failed with {error_code}: {message}"
                 ),
-                step_name="Main:S7",
+                file_name="Main",
+                step_number="S7",
                 log_level="ERROR",
             )
             return jsonify({"error": message, "error_code": error_code}), status_code
@@ -205,7 +214,8 @@ def chat():
         print(f"ERROR - [Main:S7] - {str(error)}")
         write_execution_log(
             log_message=f"Main:S7 - Unexpected chat route error: {str(error)}",
-            step_name="Main:S7",
+            file_name="Main",
+            step_number="S7",
             log_level="ERROR",
         )
         return jsonify(
@@ -222,7 +232,8 @@ def health():
         if not database_file_path.exists():
             write_execution_log(
                 log_message="Main:S8 - Health check failed because database file is missing.",
-                step_name="Main:S8",
+                file_name="Main",
+                step_number="S8",
                 log_level="ERROR",
             )
             return jsonify(
@@ -230,7 +241,8 @@ def health():
             ), 500
         write_execution_log(
             log_message="Main:S8 - Health check completed successfully.",
-            step_name="Main:S8",
+            file_name="Main",
+            step_number="S8",
             log_level="SUCCESS",
         )
         return jsonify({"status": "ok"}), 200
@@ -238,7 +250,8 @@ def health():
         print(f"ERROR - [Main:S8] - {str(error)}")
         write_execution_log(
             log_message=f"Main:S8 - Health check raised exception: {str(error)}",
-            step_name="Main:S8",
+            file_name="Main",
+            step_number="S8",
             log_level="ERROR",
         )
         return jsonify(
@@ -271,7 +284,8 @@ def history():
             log_message=(
                 f"Main:S9 - History fetched successfully with {len(history_data)} records."
             ),
-            step_name="Main:S9",
+            file_name="Main",
+            step_number="S9",
             log_level="SUCCESS",
         )
         return jsonify({"conversations": history_data}), 200
@@ -279,7 +293,8 @@ def history():
         print(f"ERROR - [Main:S9] - {str(error)}")
         write_execution_log(
             log_message=f"Main:S9 - Failed to fetch history: {str(error)}",
-            step_name="Main:S9",
+            file_name="Main",
+            step_number="S9",
             log_level="ERROR",
         )
         return jsonify({"error": "Failed To Fetch History"}), 500

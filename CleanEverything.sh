@@ -44,17 +44,17 @@ if [ -f "$db_path" ]; then
     fi
 fi
 
-log_path="$parent_folder_path/log/aiagent.log"
+log_path="$parent_folder_path/log/aiagentlogs.db"
 if [ -f "$log_path" ]; then
     echo ""
-    read -rp "Also delete log file 'log/aiagent.log'? [y/N]: " delete_log
+    read -rp "Also delete log database file 'log/aiagentlogs.db'? [y/N]: " delete_log
     if [[ "$delete_log" =~ ^[Yy]$ ]]; then
         if rm -f "$log_path" 2>/dev/null; then
             ((++deleted_count))
-            echo "Log file deleted."
+            echo "Log database file deleted."
         else
             ((++failed_count))
-            echo "Failed to delete log file."
+            echo "Failed to delete log database file."
         fi
     fi
 fi
